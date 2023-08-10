@@ -7,21 +7,25 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
 import com.example.project.R
+import com.example.project.domain.MainRepository
 import com.example.project.domain.NotifyItem
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class NotificationWorker(
-    private val context: Context,
-    workerParameters: WorkerParameters,
-    private val mainRepository: MainRepository
+@HiltWorker
+class NotificationWorker @AssistedInject constructor(
+    @Assisted private val context: Context,
+    @Assisted workerParameters: WorkerParameters,
+    @Assisted  private val mainRepository: MainRepository
 ) : CoroutineWorker(context, workerParameters) {
 
 

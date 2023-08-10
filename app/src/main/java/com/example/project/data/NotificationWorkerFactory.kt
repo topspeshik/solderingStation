@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import com.example.project.domain.MainRepository
 import javax.inject.Inject
 
 class NotificationWorkerFactory @Inject constructor(

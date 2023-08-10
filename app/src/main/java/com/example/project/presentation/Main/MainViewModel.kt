@@ -11,11 +11,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
-import com.example.project.data.MainRepository
 import com.example.project.data.NotificationWorker
+import com.example.project.domain.MainRepository
 import com.example.project.domain.NotifyItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val application: Application,
     private val mainRepository: MainRepository

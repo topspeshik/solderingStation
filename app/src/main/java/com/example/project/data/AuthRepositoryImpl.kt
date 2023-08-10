@@ -1,24 +1,26 @@
 package com.example.project.data
 
-import android.util.Log
+import com.example.project.domain.AuthRepository
 import com.example.project.domain.AuthState
 import com.example.project.domain.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AuthRepository  @Inject constructor(){
+
+//@BoundTo(supertype = AuthRepository::class, component = SingletonComponent::class)
+class AuthRepositoryImpl  @Inject constructor() : AuthRepository{
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database  = Firebase.database
     val myRef = database.getReference("users")
 
-    fun register(email: String, password: String, user: User) : Flow<AuthState> = flow {
+    override fun register(email: String, password: String, user: User) : Flow<AuthState> = flow {
         emit(AuthState.Loading())
         try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email,password).await()
@@ -33,7 +35,7 @@ class AuthRepository  @Inject constructor(){
 
     }
 
-    fun login(email: String, password: String) : Flow<AuthState> = flow {
+    override fun login(email: String, password: String) : Flow<AuthState> = flow {
         emit(AuthState.Loading())
 
         try {
@@ -48,7 +50,7 @@ class AuthRepository  @Inject constructor(){
         }
     }
 
-    fun resetPassword(email: String) : Flow<AuthState> = flow {
+    override fun resetPassword(email: String) : Flow<AuthState> = flow {
         emit(AuthState.Loading())
 
         try {

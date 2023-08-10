@@ -6,35 +6,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.project.databinding.FragmentStudentsBinding
 
 import com.example.project.presentation.Main.StudentsAdapter.StudentsAdapter
 import com.example.project.presentation.MainApplication
 import com.example.project.presentation.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class StudentsFragment : Fragment() {
 
-    private lateinit var viewModel : StudentsViewModel
+    private val viewModel : StudentsViewModel by viewModels()
     private lateinit var studentsAdapter: StudentsAdapter
 
     private var _binding: FragmentStudentsBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
-    private val component by lazy {
-        (requireActivity().application as MainApplication).component
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        component.inject(this)
+
         _binding = FragmentStudentsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,7 +39,7 @@ class StudentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this,viewModelFactory)[StudentsViewModel::class.java]
+
 
         studentsAdapter = StudentsAdapter()
         binding.rvStudents.adapter = studentsAdapter

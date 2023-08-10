@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,35 +20,34 @@ import com.example.project.presentation.Auth.ViewModels.LoginViewModel
 import com.example.project.presentation.Main.MainActivity
 import com.example.project.presentation.MainApplication
 import com.example.project.presentation.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private val args by navArgs<LoginFragmentArgs>()
 
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by viewModels()
     private var _binding : FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     private var progressBarThread: Thread? = null
     private var curProgress = 0
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
-    private val component by lazy {
-        (requireActivity().application as MainApplication).component
-    }
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        component.inject(this)
+
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+
 
         setOnClickListeners()
     }
